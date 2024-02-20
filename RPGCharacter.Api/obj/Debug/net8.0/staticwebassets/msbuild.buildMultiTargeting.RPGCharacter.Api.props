@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\RPGCharacter.Api.props" />
+</Project>
