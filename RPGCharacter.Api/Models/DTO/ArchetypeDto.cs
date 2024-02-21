@@ -1,6 +1,6 @@
 ﻿namespace RPGCharacter.Api.Models.DTO
 {
-    public class ArchetypeRequestDto
+    public class ArchetypeDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

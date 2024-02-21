@@ -7,14 +7,11 @@ namespace RPGCharacter.Api.Models.DTO
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
-        [Required]
-        public Guid UserId { get; set; }
         [Required]
         public Guid RaceId { get; set; }
         [Required]
         public Guid ArchetypeId { get; set; }
         [Required]
-        public Guid StatsId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

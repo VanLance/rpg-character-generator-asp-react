@@ -20,7 +20,7 @@ namespace RPGCharacter.Api.Controllers
                     Email = "foo@bar.com"
                 }
             };
-
+            return Ok("foo users");
             //public IActionResult  
         }
     }

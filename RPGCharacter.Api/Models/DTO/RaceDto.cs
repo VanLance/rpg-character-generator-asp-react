@@ -1,6 +1,6 @@
 ﻿namespace RPGCharacter.Api.Models.DTO
 {
-    public class RaceRequestDto
+    public class RaceDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace RPGCharacter.Api.Models.Domain
+﻿namespace RPGCharacter.Api.Models.DTO
 {
-    public class Stats
+    public class StatsDto
     {
         public Guid Id { get; set; }
         public int HitPoints { get; set; }
