@@ -7,5 +7,6 @@ namespace RPGCharacter.Api.Controllers
     [ApiController]
     public class CharactersController : ControllerBase
     {
+
     }
 }
