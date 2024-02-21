@@ -53,8 +53,8 @@ namespace RPGCharacter.Api.Controllers
             {
                 Id = character.Id,
                 Name = character.Name,
-                Archetype = character.Archetype,
-                Race = character.Race,
+                ArchetypeId = character.ArchetypeId,
+                RaceId = character.RaceId,
                 UserId = character.UserId,
                 //StatsId = character.StatsId,
             };

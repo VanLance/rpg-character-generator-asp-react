@@ -6,6 +6,9 @@ namespace RPGCharacter.Api.Models.DTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public Guid RaceId { get; set; }
+        public Guid ArchetypeId { get; set; }
+        public Guid StatsId { get; set; }
         public Guid UserId { get; set; }
 
         public RaceDto Race { get; set; }
