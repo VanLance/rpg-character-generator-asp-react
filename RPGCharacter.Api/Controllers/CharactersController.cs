@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RPGCharacter.Api.Data;
 using RPGCharacter.Api.Models.Domain;
 using RPGCharacter.Api.Models.DTO;
+using RPGCharacter.Api.Repositories;
 using RPGCharacter.Api.Services;
 
 namespace RPGCharacter.Api.Controllers
@@ -13,17 +14,20 @@ namespace RPGCharacter.Api.Controllers
     public class CharactersController : ControllerBase
     {
         private readonly RpgCharacterDbContext dbContext;
-        public CharactersController(RpgCharacterDbContext dbContext)
+        private readonly ICharacterRepository characterRepository;
+
+        public CharactersController(RpgCharacterDbContext dbContext, ICharacterRepository characterRepository)
         {
             this.dbContext = dbContext;
+            this.characterRepository = characterRepository;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var charactersDomain = dbContext.Characters.ToList();
-
+            var charactersDomain = await characterRepository.GetAllAsync();
             var charactersDto = new List<CharacterDto>();
+
             foreach (var character in charactersDomain)
             {
                 charactersDto.Add(new CharacterDto()
@@ -41,9 +45,9 @@ namespace RPGCharacter.Api.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var character = dbContext.Characters.Find(id);
+            var character = await dbContext.Characters.FindAsync(id);
 
             if (character == null)
             {
@@ -57,13 +61,13 @@ namespace RPGCharacter.Api.Controllers
                 ArchetypeId = character.ArchetypeId,
                 RaceId = character.RaceId,
                 UserId = character.UserId,
-                //StatsId = character.StatsId,
+                StatsId = character.StatsId,
             };
             return Ok(characterDto);
         }
 
         [HttpPost]
-        public IActionResult PostCharacter([FromBody] PostCharacterRequestDto characterData)
+        public async Task<IActionResult> PostCharacter([FromBody] PostCharacterRequestDto characterData)
         {
             var characterDomainModel = new Character
             {
@@ -71,13 +75,22 @@ namespace RPGCharacter.Api.Controllers
                 ArchetypeId = characterData.ArchetypeId,
                 RaceId = characterData.RaceId,
                 UserId = characterData.UserId,
+
             };
 
+            // Fetch the corresponding archetype object from the database
+            var archetype = dbContext.Archetypes
+    .Include(a => a.KeyStats)
+    .FirstOrDefault(a => a.Id == characterData.ArchetypeId);
+
+            // Assign the fetched archetype to the character's Archetype property
+            characterDomainModel.Archetype = archetype;
+
             new StatsGenerator(characterDomainModel);
-            
-            dbContext.Characters.Add(characterDomainModel);
-            dbContext.Add(characterDomainModel.Stats);
-            dbContext.SaveChanges();
+
+            await dbContext.Characters.AddAsync(characterDomainModel);
+            await dbContext.AddAsync(characterDomainModel.Stats);
+            await dbContext.SaveChangesAsync();
 
             var characterDto = new CharacterDto
             {
@@ -87,7 +100,7 @@ namespace RPGCharacter.Api.Controllers
                 RaceId = characterDomainModel.RaceId,
             };
 
-            return CreatedAtAction(nameof(GetById), new { id = characterDomainModel.Id}, characterDomainModel );
+            return CreatedAtAction(nameof(GetById), new { id = characterDomainModel.Id }, characterDomainModel);
         }
     }
 }

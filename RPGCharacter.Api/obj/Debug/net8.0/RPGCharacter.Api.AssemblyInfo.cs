@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RPGCharacter.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c33de0efeef53996a32ffe93e2c7fd5d07ea255f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9dff6c1bed39bedf352779f7f581251daf826e85")]
 [assembly: System.Reflection.AssemblyProductAttribute("RPGCharacter.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RPGCharacter.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
