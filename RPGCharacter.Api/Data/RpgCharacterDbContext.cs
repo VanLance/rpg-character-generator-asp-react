@@ -45,19 +45,74 @@ namespace RPGCharacter.Api.Data
                 {
                     Id = Guid.Parse("60d2434d-74ad-42a3-9664-dbfe796a4c5b"),
                     Name = "barbarian",
+                    HitDice = 10,
                 },
                  new Archetype()
                 {
                     Id = Guid.Parse("6a2c8fc7-3773-4569-9a3e-cf4d5b5a68f3"),
                     Name = "wizard",
+                    HitDice = 8,
                 },
                 new Archetype()
                 {
                     Id = Guid.Parse("9b4dd00d-0622-40e5-8331-bd894f362119"),
                     Name = "rogue",
+                    HitDice = 10,
                 },
             };
             modelBuilder.Entity<Archetype>().HasData(archetypes);
+
+            var raceStatBuffs = new List<RaceStatBuff>()
+            {
+                new RaceStatBuff()
+                {
+                    //elf
+                    Id =  Guid.Parse(""),
+                    Stat = ,
+                    RaceId =  Guid.Parse("65728c3a-78c6-4a46-a79e-393843c2c098"),
+                    Buff = ,
+                },
+                new RaceStatBuff()
+                {
+                    // elf
+                    Id = Guid.Parse(""),
+                    Stat = ,
+                    RaceId = Guid.Parse("65728c3a-78c6-4a46-a79e-393843c2c098"),
+                    Buff = ,
+                },
+                new RaceStatBuff()
+                {
+                    // hobbit
+                    Id = Guid.Parse(""),
+                    Stat = ,
+                    RaceId = Guid.Parse("d17528a7-34d8-4abc-93b2-d01787e44fad"),
+                    Buff = ,
+                },
+                new RaceStatBuff()
+                {
+                    // hobbit
+                    Id = Guid.Parse(""),
+                    Stat = ,
+                    RaceId = Guid.Parse("d17528a7-34d8-4abc-93b2-d01787e44fad"),
+                    Buff = ,
+                },
+                new RaceStatBuff()
+                {
+                    // dwarf
+                    Id = Guid.Parse(""),
+                    Stat = ,
+                    RaceId = ,
+                    Buff = ,
+                },
+                new RaceStatBuff()
+                {
+                    // dwarf
+                    Id = Guid.Parse(""),
+                    Stat = ,
+                    RaceId = ,
+                    Buff = ,
+                },
+            }
         }
     }
 }

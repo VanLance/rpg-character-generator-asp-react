@@ -11,5 +11,14 @@
         public int Wisdom { get; set; }
         public int Intelligence { get; set; }
         public int Charisma { get; set; }
+
+        public int StatModifier(int statValue)
+        {
+            if (statValue >= 10)
+            {
+                return (statValue - 10) / 2;
+            }
+            return (statValue - 11) / 2;
+        }
     }
 }
