@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RPGCharacter.Api.Data;
 using RPGCharacter.Api.Models.Domain;
 using RPGCharacter.Api.Models.DTO;
+using RPGCharacter.Api.Services;
 
 namespace RPGCharacter.Api.Controllers
 {
@@ -71,7 +72,11 @@ namespace RPGCharacter.Api.Controllers
                 RaceId = characterData.RaceId,
                 UserId = characterData.UserId,
             };
+
+            new StatsGenerator(characterDomainModel);
+            
             dbContext.Characters.Add(characterDomainModel);
+            dbContext.Add(characterDomainModel.Stats);
             dbContext.SaveChanges();
 
             var characterDto = new CharacterDto

@@ -21,7 +21,8 @@ namespace RPGCharacter.Api.Services
             UpdateRemainingStats(ref currentStatIndex);
             character.Stats.HitPoints = new HealthPointsGenerator(character).Total;
 
-            character.Stats.ArmorClass =  new ArmorClassGenerator(character).Value;
+            character.Stats.ArmorClass = new ArmorClassGenerator(character).Value;
+            Console.WriteLine(character.Stats);
         }
 
         public void UpdateKeyStats(ref int currentStatIndex)
@@ -29,7 +30,7 @@ namespace RPGCharacter.Api.Services
             Console.WriteLine(character.Name);
 
             FieldInfo[] statFields = typeof(Stats).GetFields();
-            foreach (StatType keyStat in character.Archetype.keyStats)
+            foreach (string keyStat in new List<string> { character.Archetype.KeyStats.KeyStat1,character.Archetype.KeyStats.KeyStat2 } )
             {
                 foreach (FieldInfo statField in statFields)
                 {
