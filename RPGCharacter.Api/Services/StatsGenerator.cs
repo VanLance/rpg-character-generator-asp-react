@@ -1,4 +1,5 @@
 ﻿using RPGCharacter.Api.Models.Domain;
+using System.Collections;
 using System.Reflection;
 
 namespace RPGCharacter.Api.Services
@@ -7,36 +8,39 @@ namespace RPGCharacter.Api.Services
     {
         public Character character;
         int[] availableStats = new StatRoller().stats;
+        public Stats Stats;
 
         public StatsGenerator(Character character)
         {
             this.character = character;
-            this.character.Stats = new Stats();
+            Stats = new Stats();
 
             int currentStatIndex = availableStats.Length - 1;
 
             Array.Sort(availableStats);
+            Console.WriteLine("available");
+            Console.WriteLine(availableStats.ToString());
 
             UpdateKeyStats(ref currentStatIndex);
             UpdateRemainingStats(ref currentStatIndex);
-            character.Stats.HitPoints = new HealthPointsGenerator(character).Total;
+            Stats.HitPoints = new HealthPointsGenerator(character, Stats).Total;
 
-            character.Stats.ArmorClass = new ArmorClassGenerator(character).Value;
-            Console.WriteLine(character.Stats);
+            Stats.ArmorClass = new ArmorClassGenerator(character, Stats).Value;
+            Console.WriteLine("Character stats");
         }
 
         public void UpdateKeyStats(ref int currentStatIndex)
         {
-            Console.WriteLine(character.Name);
-
-            FieldInfo[] statFields = typeof(Stats).GetFields();
+            var statFields = typeof(Stats).GetProperties();
             foreach (string keyStat in new List<string> { character.Archetype.KeyStats.KeyStat1,character.Archetype.KeyStats.KeyStat2 } )
             {
-                foreach (FieldInfo statField in statFields)
+                foreach (var statField in statFields)
                 {
-                    if (statField.Name == keyStat.ToString())
+                    if (statField.Name.ToString().ToLower() == keyStat.ToString())
                     {
-                        statField.SetValue(character.Stats, availableStats[currentStatIndex]);
+                        Console.WriteLine("WE GOTTA MATCDH");
+                        Console.WriteLine(statField.ToString());
+                        statField.SetValue(Stats, availableStats[currentStatIndex]);
                     }
                 }
                 currentStatIndex--;
@@ -45,26 +49,20 @@ namespace RPGCharacter.Api.Services
 
         private void UpdateRemainingStats(ref int currentStatIndex)
         {
-            FieldInfo[] fields = typeof(StatType).GetFields();
-            foreach (FieldInfo statTypeField in fields)
+            PropertyInfo[] fields = typeof(Stats).GetProperties();
+            foreach (PropertyInfo statTypeField in fields)
             {
-                Console.WriteLine(statTypeField.Name);
-                FieldInfo fieldInfo = typeof(Stats).GetField(statTypeField.Name);
-                if (fieldInfo != null && Convert.ToString(fieldInfo.GetValue(character.Stats)) == "0")
+                Console.WriteLine(statTypeField.ToString());
+                PropertyInfo propertyInfo = typeof(Stats).GetProperty(statTypeField.Name);
+                ArrayList checks = new ArrayList{ "HitPoints", "ArmorClass", "Id" };
+                if (!checks.Contains(propertyInfo.Name.ToString()) && Convert.ToString(propertyInfo.GetValue(Stats)) == "0")
                 {
-                    fieldInfo.SetValue(character.Stats, availableStats[currentStatIndex]);
+                    Console.WriteLine("change");
+                    Console.WriteLine(propertyInfo);
+                    propertyInfo.SetValue(Stats, availableStats[currentStatIndex]);
                     currentStatIndex--;
                 }
             }
         }
-    }
-    public enum StatType
-    {
-        Strength,
-        Dexterity,
-        Constitution,
-        Wisdom,
-        Intelligence,
-        Charisma
     }
 }

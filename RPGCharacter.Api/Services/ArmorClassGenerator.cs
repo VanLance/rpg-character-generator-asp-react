@@ -6,10 +6,13 @@ namespace RPGCharacter.Api.Services
     {
         public int Value { get; set; }
         readonly private Character character;
-        public ArmorClassGenerator(Character character)
-        {
-            this.character = character;
+        readonly private Stats Stats;
 
+        public ArmorClassGenerator(Character character, Stats Stats)
+        {
+            this.Stats = Stats;
+            this.character = character;
+            
             InitialAC();
         }
 
@@ -17,8 +20,7 @@ namespace RPGCharacter.Api.Services
 
         private void InitialAC()
         {
-            Value = 10 + character.Stats.StatModifier(character.Stats.Dexterity);
-            character.Stats.ArmorClass = Value;
+            Value = 10 + Stats.StatModifier(Stats.Dexterity);
         }
     }
 }

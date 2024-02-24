@@ -5,7 +5,6 @@
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int HitDice { get; set; }
-        public Guid ArchetypeId { get; set; }
 
         public ArchetypeKeyStats KeyStats { get; set; }
     }

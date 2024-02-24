@@ -80,16 +80,17 @@ namespace RPGCharacter.Api.Controllers
 
             // Fetch the corresponding archetype object from the database
             var archetype = dbContext.Archetypes
-    .Include(a => a.KeyStats)
-    .FirstOrDefault(a => a.Id == characterData.ArchetypeId);
+                .Include(a => a.KeyStats)
+                .FirstOrDefault(a => a.Id == characterData.ArchetypeId);
 
             // Assign the fetched archetype to the character's Archetype property
             characterDomainModel.Archetype = archetype;
 
-            new StatsGenerator(characterDomainModel);
+            characterDomainModel.Stats =  new StatsGenerator(characterDomainModel).Stats;
 
             await dbContext.Characters.AddAsync(characterDomainModel);
             await dbContext.AddAsync(characterDomainModel.Stats);
+            Console.WriteLine(characterDomainModel.Stats);
             await dbContext.SaveChangesAsync();
 
             var characterDto = new CharacterDto
