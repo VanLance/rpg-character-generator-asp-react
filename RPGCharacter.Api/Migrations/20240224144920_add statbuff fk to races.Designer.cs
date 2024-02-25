@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPGCharacter.Api.Data;
 
@@ -11,9 +12,11 @@ using RPGCharacter.Api.Data;
 namespace RPGCharacter.Api.Migrations
 {
     [DbContext(typeof(RpgCharacterDbContext))]
-    partial class RpgCharacterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240224144920_add statbuff fk to races")]
+    partial class addstatbufffktoraces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,22 +92,22 @@ namespace RPGCharacter.Api.Migrations
                         {
                             Id = new Guid("d557739a-2903-4665-a2d1-000d9312ffb7"),
                             ArchetypeId = new Guid("60d2434d-74ad-42a3-9664-dbfe796a4c5b"),
-                            KeyStat1 = "Strength",
-                            KeyStat2 = "Dexterity"
+                            KeyStat1 = "strength",
+                            KeyStat2 = "dexterity"
                         },
                         new
                         {
                             Id = new Guid("8f8aaee5-a36f-4bc2-93d2-9758a376cd65"),
                             ArchetypeId = new Guid("6a2c8fc7-3773-4569-9a3e-cf4d5b5a68f3"),
-                            KeyStat1 = "Intelligence",
-                            KeyStat2 = "Wisdom"
+                            KeyStat1 = "intelligence",
+                            KeyStat2 = "wisdom"
                         },
                         new
                         {
                             Id = new Guid("50de78ff-fa9e-4024-980c-50ccead02e5c"),
                             ArchetypeId = new Guid("9b4dd00d-0622-40e5-8331-bd894f362119"),
-                            KeyStat1 = "Dexterity",
-                            KeyStat2 = "Constitution"
+                            KeyStat1 = "dexterity",
+                            KeyStat2 = "constitution"
                         });
                 });
 
@@ -166,19 +169,19 @@ namespace RPGCharacter.Api.Migrations
                         new
                         {
                             Id = new Guid("65728c3a-78c6-4a46-a79e-393843c2c098"),
-                            Name = "Elf",
+                            Name = "elf",
                             RaceStatBuffId = new Guid("6a379834-5bf8-4c85-8390-df01c9ea25b2")
                         },
                         new
                         {
                             Id = new Guid("6d549445-d419-4a35-9ecb-84567e4b03ff"),
-                            Name = "Dwarf",
+                            Name = "dwarf",
                             RaceStatBuffId = new Guid("ffdb0de9-74a4-4a16-acf8-80abf10c7e14")
                         },
                         new
                         {
                             Id = new Guid("d17528a7-34d8-4abc-93b2-d01787e44fad"),
-                            Name = "Hobbit",
+                            Name = "hobbit",
                             RaceStatBuffId = new Guid("a6f9cb9f-38e3-4a7c-b505-000ac7462c1e")
                         });
                 });

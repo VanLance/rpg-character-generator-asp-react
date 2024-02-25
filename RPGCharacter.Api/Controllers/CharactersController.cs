@@ -83,14 +83,14 @@ namespace RPGCharacter.Api.Controllers
                 .Include(a => a.KeyStats)
                 .FirstOrDefault(a => a.Id == characterData.ArchetypeId);
 
+            var race = dbContext.Races.Include("RaceStatBuff").FirstOrDefault(race => race.Id == characterData.RaceId);
+
             // Assign the fetched archetype to the character's Archetype property
             characterDomainModel.Archetype = archetype;
-
+            characterDomainModel.Race = race;
             characterDomainModel.Stats =  new StatsGenerator(characterDomainModel).Stats;
 
             await dbContext.Characters.AddAsync(characterDomainModel);
-            await dbContext.AddAsync(characterDomainModel.Stats);
-            Console.WriteLine(characterDomainModel.Stats);
             await dbContext.SaveChangesAsync();
 
             var characterDto = new CharacterDto

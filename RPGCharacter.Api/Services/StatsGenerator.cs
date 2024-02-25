@@ -23,6 +23,7 @@ namespace RPGCharacter.Api.Services
 
             UpdateKeyStats(ref currentStatIndex);
             UpdateRemainingStats(ref currentStatIndex);
+            AddRaceBuffs();
             Stats.HitPoints = new HealthPointsGenerator(character, Stats).Total;
 
             Stats.ArmorClass = new ArmorClassGenerator(character, Stats).Value;
@@ -32,14 +33,12 @@ namespace RPGCharacter.Api.Services
         public void UpdateKeyStats(ref int currentStatIndex)
         {
             var statFields = typeof(Stats).GetProperties();
-            foreach (string keyStat in new List<string> { character.Archetype.KeyStats.KeyStat1,character.Archetype.KeyStats.KeyStat2 } )
+            foreach (string keyStat in new List<string> { character.Archetype.KeyStats.KeyStat1, character.Archetype.KeyStats.KeyStat2 })
             {
                 foreach (var statField in statFields)
                 {
-                    if (statField.Name.ToString().ToLower() == keyStat.ToString())
+                    if (statField.Name.ToString() == keyStat.ToString())
                     {
-                        Console.WriteLine("WE GOTTA MATCDH");
-                        Console.WriteLine(statField.ToString());
                         statField.SetValue(Stats, availableStats[currentStatIndex]);
                     }
                 }
@@ -52,16 +51,30 @@ namespace RPGCharacter.Api.Services
             PropertyInfo[] fields = typeof(Stats).GetProperties();
             foreach (PropertyInfo statTypeField in fields)
             {
-                Console.WriteLine(statTypeField.ToString());
                 PropertyInfo propertyInfo = typeof(Stats).GetProperty(statTypeField.Name);
-                ArrayList checks = new ArrayList{ "HitPoints", "ArmorClass", "Id" };
+                ArrayList checks = new ArrayList { "HitPoints", "ArmorClass", "Id" };
                 if (!checks.Contains(propertyInfo.Name.ToString()) && Convert.ToString(propertyInfo.GetValue(Stats)) == "0")
                 {
-                    Console.WriteLine("change");
-                    Console.WriteLine(propertyInfo);
+                   
                     propertyInfo.SetValue(Stats, availableStats[currentStatIndex]);
                     currentStatIndex--;
                 }
+            }
+        }
+
+        private void AddRaceBuffs()
+        {
+            var stat = typeof(Stats).GetProperty(character.Race.RaceStatBuff.Stat );
+            Console.WriteLine("before");
+            Console.WriteLine(character.Race.RaceStatBuff.Stat);
+            Console.WriteLine(stat);
+            PropertyInfo propertyInfoUp = typeof(Stats).GetProperty("Dexterity");
+            PropertyInfo propertyInfoLow = typeof(Stats).GetProperty("dexterity");
+            Console.WriteLine("Up".Concat(propertyInfoUp.Name).ToString());
+            if (stat != null)
+            {
+                Console.WriteLine("in if");
+                stat.SetValue(Stats, (int)stat.GetValue(Stats)! + character.Race.RaceStatBuff.Buff);
             }
         }
     }
